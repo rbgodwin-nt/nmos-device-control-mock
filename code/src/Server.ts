@@ -144,11 +144,11 @@ try
             new NcGain(22, true, 21, "left-gain", "Left gain", false, NcLockState.NoLock, [], true, [
                 new NcPort('input_1', NcIoDirection.Input, null),
                 new NcPort('output_1', NcIoDirection.Output, null),
-            ], null, 0, "Left channel gain", sessionManager),
+            ], null, 0, false, "Left channel gain", sessionManager),
             new NcGain(23, true, 21, "right-gain", "Right gain", false, NcLockState.NoLock, [], true, [
                 new NcPort('input_1', NcIoDirection.Input, null),
                 new NcPort('output_1', NcIoDirection.Output, null),
-            ], null, 0, "Right channel gain", sessionManager)
+            ], null, 0, false, "Right channel gain", sessionManager)
         ],
         [ 
             new NcPort('stereo_gain_input_1', NcIoDirection.Input, null),
@@ -189,7 +189,7 @@ try
                     new NcPort('input_2', NcIoDirection.Input, null),
                     new NcPort('output_1', NcIoDirection.Output, null),
                     new NcPort('output_2', NcIoDirection.Output, null),
-                ], null, 0, "Master gain", sessionManager)
+                ], null, 0, false, "Master gain", sessionManager)
             ],
             [ 
                 new NcPort('block_input_1', NcIoDirection.Input, null),

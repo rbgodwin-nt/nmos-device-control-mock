@@ -162,6 +162,9 @@ export class NcGain extends NcActuator
     @myIdDecorator('5p1')
     public setPoint: number;
 
+    @myIdDecorator('5p2')
+    public mute: boolean;
+
     public classID: number[] = [ 1, 2, 1, 1, 1 ];
     public classVersion: string = "1.0.0";
 
@@ -178,12 +181,14 @@ export class NcGain extends NcActuator
         ports: NcPort[] | null,
         latency: number | null,
         setPoint: number,
+	mute: boolean,
         description: string,
         notificationContext: INotificationContext)
     {
         super(oid, constantOid, owner, role, userLabel, lockable, lockState, touchpoints, enabled, ports, latency, description, notificationContext);
 
         this.setPoint = setPoint;
+	this.mute = mute;
     }
 
     //'1m1'
@@ -197,6 +202,8 @@ export class NcGain extends NcActuator
             {
                 case '5p1':
                     return new CommandResponseWithValue(handle, NcMethodStatus.OK, this.setPoint, null);
+		case '5p2':
+		    return new CommandResponseWithValue(handle, NcMethodStatus.OK, this.mute, null);
                 default:
                     return super.Get(oid, propertyId, handle);
             }
@@ -218,7 +225,11 @@ export class NcGain extends NcActuator
                     this.setPoint = value;
                     this.notificationContext.NotifyPropertyChanged(this.oid, id, this.setPoint);
                     return new CommandResponseNoValue(handle, NcMethodStatus.OK, null);
-                default:
+              case '5p2':
+                    this.mute = value;
+                    this.notificationContext.NotifyPropertyChanged(this.oid, id, this.mute);
+                    return new CommandResponseNoValue(handle, NcMethodStatus.OK, null);
+              default:
                     return super.Set(oid, id, value, handle);
             }
         }
