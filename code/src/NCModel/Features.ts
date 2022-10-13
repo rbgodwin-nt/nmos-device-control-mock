@@ -289,7 +289,7 @@ export class NcGainCustom extends NcGain
 
             switch(key)
             {
-    		case '5p1':
+    		case '6p1':
 		    return new CommandResponseWithValue(handle, NcMethodStatus.OK, this.mute, null);
                 default:
                     return super.Get(oid, propertyId, handle);
