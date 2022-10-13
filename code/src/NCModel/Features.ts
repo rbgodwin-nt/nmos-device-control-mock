@@ -157,15 +157,12 @@ export abstract class NcActuator extends NcSignalWorker
     }
 }
 
-export class NcGain extends NcActuator
+export class NcGainCustom extends NcGain
 {
-    @myIdDecorator('5p1')
-    public setPoint: number;
+    @myIdDecorator('6p1')
+    public setPoint: mute;
 
-    @myIdDecorator('5p2')
-    public mute: boolean;
-
-    public classID: number[] = [ 1, 2, 1, 1, 1 ];
+    public classID: number[] = [ 1, 2, 1, 1, 1, 1 ];
     public classVersion: string = "1.0.0";
 
     public constructor(
@@ -181,14 +178,13 @@ export class NcGain extends NcActuator
         ports: NcPort[] | null,
         latency: number | null,
         setPoint: number,
-	mute: boolean,
+	    mute: boolean,
         description: string,
         notificationContext: INotificationContext)
     {
-        super(oid, constantOid, owner, role, userLabel, lockable, lockState, touchpoints, enabled, ports, latency, description, notificationContext);
+        super(oid, constantOid, owner, role, userLabel, lockable, lockState, touchpoints, enabled, ports, latency, setPoint, description, notificationContext);
 
-        this.setPoint = setPoint;
-	this.mute = mute;
+	    this.mute = mute;
     }
 
     //'1m1'
@@ -200,9 +196,7 @@ export class NcGain extends NcActuator
 
             switch(key)
             {
-                case '5p1':
-                    return new CommandResponseWithValue(handle, NcMethodStatus.OK, this.setPoint, null);
-		case '5p2':
+    		case '5p1':
 		    return new CommandResponseWithValue(handle, NcMethodStatus.OK, this.mute, null);
                 default:
                     return super.Get(oid, propertyId, handle);
@@ -221,11 +215,7 @@ export class NcGain extends NcActuator
 
             switch(key)
             {
-                case '5p1':
-                    this.setPoint = value;
-                    this.notificationContext.NotifyPropertyChanged(this.oid, id, this.setPoint);
-                    return new CommandResponseNoValue(handle, NcMethodStatus.OK, null);
-              case '5p2':
+              case '6p1':
                     this.mute = value;
                     this.notificationContext.NotifyPropertyChanged(this.oid, id, this.mute);
                     return new CommandResponseNoValue(handle, NcMethodStatus.OK, null);
@@ -241,12 +231,9 @@ export class NcGain extends NcActuator
     {
         let baseDescriptor = super.GetClassDescriptor();
 
-        let currentClassDescriptor = new NcClassDescriptor("NcGain class descriptor",
+        let currentClassDescriptor = new NcClassDescriptor("NcGainCustom class descriptor",
             [ 
-                new NcPropertyDescriptor(new NcElementId(2, 1), "enabled", "NcBoolean", false, true, false, false, null, "TRUE iff worker is enabled"),
-                new NcPropertyDescriptor(new NcElementId(3, 1), "ports", "NcPort", false, true, false, true, null, "The worker's signal ports"),
-                new NcPropertyDescriptor(new NcElementId(3, 2), "latency", "NcTimeInterval", true, true, true, false, null, "Processing latency of this object (null if not defined)"),
-                new NcPropertyDescriptor(new NcElementId(5, 1), "setPoint", "NcDB", false, false, false, false, null, "Gain set point value")
+                new NcPropertyDescriptor(new NcElementId(2, 1), "mute", "NcBoolean", false, true, false, false, null, "TRUE iff muted"),
             ],
             [],
             []
