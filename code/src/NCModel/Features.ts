@@ -253,7 +253,7 @@ export class NcGain extends NcActuator
 export class NcGainCustom extends NcGain
 {
     @myIdDecorator('6p1')
-    public setPoint: mute;
+    public mute: Boolean;
 
     public classID: number[] = [ 1, 2, 1, 1, 1, 1 ];
     public classVersion: string = "1.0.0";

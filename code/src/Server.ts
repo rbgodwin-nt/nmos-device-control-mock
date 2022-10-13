@@ -14,7 +14,7 @@ import { SessionManager } from './SessionManager';
 import { NcBlock, RootBlock } from './NCModel/Blocks';
 import { NcClassManager, NcDeviceManager, NcSubscriptionManager } from './NCModel/Managers';
 import { NcIoDirection, NcLockState, NcPort, NcPortReference, NcSignalPath, NcTouchpointNmos, NcTouchpointResourceNmos } from './NCModel/Core';
-import { NcDemo, NcGain, NcReceiverMonitor } from './NCModel/Features';
+import { NcDemo, NcGainCustom, NcReceiverMonitor } from './NCModel/Features';
 
 export interface WebSocketConnection extends WebSocket {
     isAlive: boolean;
@@ -141,11 +141,11 @@ try
         null,
         false,
         [
-            new NcGain(22, true, 21, "left-gain", "Left gain", false, NcLockState.NoLock, [], true, [
+            new NcGainCustom(22, true, 21, "left-gain", "Left gain", false, NcLockState.NoLock, [], true, [
                 new NcPort('input_1', NcIoDirection.Input, null),
                 new NcPort('output_1', NcIoDirection.Output, null),
             ], null, 0, false, "Left channel gain", sessionManager),
-            new NcGain(23, true, 21, "right-gain", "Right gain", false, NcLockState.NoLock, [], true, [
+            new NcGainCustom(23, true, 21, "right-gain", "Right gain", false, NcLockState.NoLock, [], true, [
                 new NcPort('input_1', NcIoDirection.Input, null),
                 new NcPort('output_1', NcIoDirection.Output, null),
             ], null, 0, false, "Right channel gain", sessionManager)
@@ -162,7 +162,7 @@ try
             new NcSignalPath('right_gain_input', 'Right gain input', new NcPortReference([], "stereo_gain_input_2"), new NcPortReference(['right-gain'], 'input_1')),
             new NcSignalPath('right_gain_output', 'Right gain output', new NcPortReference(['right-gain'], 'output_1'), new NcPortReference([], "stereo_gain_output_2")),
         ],
-        "Channel gain block",
+        "Channel gain block with Mute",
         sessionManager);
 
         const stereoGainBlock = new NcBlock(
@@ -184,7 +184,7 @@ try
             false,
             [
                 channelGainBlock,
-                new NcGain(24, true, 31, "master-gain", "Master gain", false, NcLockState.NoLock, [], true, [
+                new NcGainCustom(24, true, 31, "master-gain", "Master gain", false, NcLockState.NoLock, [], true, [
                     new NcPort('input_1', NcIoDirection.Input, null),
                     new NcPort('input_2', NcIoDirection.Input, null),
                     new NcPort('output_1', NcIoDirection.Output, null),
@@ -205,7 +205,7 @@ try
                 new NcSignalPath('right-gain-out-to-master-gain-in-2', 'Right gain output to master gain input 2', new NcPortReference(['stereo-gain'], 'stereo_gain_output_2'), new NcPortReference(['master-gain'], "input_2")),
                 new NcSignalPath('master-gain-out-2-to-block-out-2', 'Master gain output 2 to block output 2', new NcPortReference(['master-gain'], "output_2"), new NcPortReference([], 'block_output_2'))
             ],
-            "Stereo gain block",
+            "Stereo gain block with Mute",
             sessionManager);
 
     const rootBlock = new RootBlock(
