@@ -157,6 +157,99 @@ export abstract class NcActuator extends NcSignalWorker
     }
 }
 
+export class NcGain extends NcActuator
+{
+    @myIdDecorator('5p1')
+    public setPoint: number;
+
+    public classID: number[] = [ 1, 2, 1, 1, 1 ];
+    public classVersion: string = "1.0.0";
+
+    public constructor(
+        oid: number,
+        constantOid: boolean,
+        owner: number | null,
+        role: string,
+        userLabel: string,
+        lockable: boolean,
+        lockState: NcLockState,
+        touchpoints: NcTouchpoint[],
+        enabled: boolean,
+        ports: NcPort[] | null,
+        latency: number | null,
+        setPoint: number,
+        description: string,
+        notificationContext: INotificationContext)
+    {
+        super(oid, constantOid, owner, role, userLabel, lockable, lockState, touchpoints, enabled, ports, latency, description, notificationContext);
+
+        this.setPoint = setPoint;
+    }
+
+    //'1m1'
+    public override Get(oid: number, propertyId: NcElementId, handle: number) : CommandResponseNoValue
+    {
+        if(oid == this.oid)
+        {
+            let key: string = `${propertyId.level}p${propertyId.index}`;
+
+            switch(key)
+            {
+                case '5p1':
+                    return new CommandResponseWithValue(handle, NcMethodStatus.OK, this.setPoint, null);
+                default:
+                    return super.Get(oid, propertyId, handle);
+            }
+        }
+
+        return new CommandResponseNoValue(handle, NcMethodStatus.InvalidRequest, 'OID could not be found');
+    }
+
+    //'1m2'
+    public override Set(oid: number, id: NcElementId, value: any, handle: number) : CommandResponseNoValue
+    {
+        if(oid == this.oid)
+        {
+            let key: string = `${id.level}p${id.index}`;
+
+            switch(key)
+            {
+                case '5p1':
+                    this.setPoint = value;
+                    this.notificationContext.NotifyPropertyChanged(this.oid, id, this.setPoint);
+                    return new CommandResponseNoValue(handle, NcMethodStatus.OK, null);
+                default:
+                    return super.Set(oid, id, value, handle);
+            }
+        }
+
+        return new CommandResponseNoValue(handle, NcMethodStatus.InvalidRequest, 'OID could not be found');
+    }
+
+    public static override GetClassDescriptor(): NcClassDescriptor 
+    {
+        let baseDescriptor = super.GetClassDescriptor();
+
+        let currentClassDescriptor = new NcClassDescriptor("NcGain class descriptor",
+            [ 
+                new NcPropertyDescriptor(new NcElementId(2, 1), "enabled", "NcBoolean", false, true, false, false, null, "TRUE iff worker is enabled"),
+                new NcPropertyDescriptor(new NcElementId(3, 1), "ports", "NcPort", false, true, false, true, null, "The worker's signal ports"),
+                new NcPropertyDescriptor(new NcElementId(3, 2), "latency", "NcTimeInterval", true, true, true, false, null, "Processing latency of this object (null if not defined)"),
+                new NcPropertyDescriptor(new NcElementId(5, 1), "setPoint", "NcDB", false, false, false, false, null, "Gain set point value")
+            ],
+            [],
+            []
+        );
+
+        currentClassDescriptor.properties = currentClassDescriptor.properties.concat(baseDescriptor.properties);
+        currentClassDescriptor.methods = currentClassDescriptor.methods.concat(baseDescriptor.methods);
+        currentClassDescriptor.events = currentClassDescriptor.events.concat(baseDescriptor.events);
+
+        return currentClassDescriptor;
+    }
+}
+
+
 export class NcGainCustom extends NcGain
 {
     @myIdDecorator('6p1')
