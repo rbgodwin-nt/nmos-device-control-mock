@@ -43,9 +43,9 @@ try
         config.base_label,
         config.address,
         config.port,
-        "ACME",
-        "Widget Pro",
-        "XYZ123-456789",
+        "NMOS Community: Contact randy.godwin@macnica.com",
+        "Prototype Controllable-Configurable Node",
+        "Version 1.0",
         registrationClient);
 
     const myDevice = new NmosDevice(
@@ -54,10 +54,10 @@ try
         config.base_label,
         config.address,
         config.port,
-        "ACME-D",
-        "Widget Pro-D",
-        "XYZ123-456789-D",
-        "UHD Decoder",
+        "NMOS Community: Contact randy.godwin@macnica.com",
+        "Prototype Controllable-Configurable Node",
+        "Version 1.0",
+        "Ely Workshop Development",
         registrationClient);
 
     const myVideoReceiver = new NmosReceiverVideo(
