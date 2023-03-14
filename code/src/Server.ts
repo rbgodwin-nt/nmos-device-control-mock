@@ -44,7 +44,7 @@ try
         config.address,
         config.port,
         "NMOS Community: Contact randy.godwin@macnica.com",
-        "Prototype Controllable-Configurable Node",
+        "Prototype Controllable-Configurable Device",
         "Version 1.0",
         registrationClient);
 
@@ -55,7 +55,7 @@ try
         config.address,
         config.port,
         "NMOS Community: Contact randy.godwin@macnica.com",
-        "Prototype Controllable-Configurable Node",
+        "Prototype Controllable-Configurable Device",
         "Version 1.0",
         "Ely Workshop Development",
         registrationClient);
