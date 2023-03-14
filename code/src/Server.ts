@@ -43,7 +43,7 @@ try
         config.base_label,
         config.address,
         config.port,
-        "NMOS Community: Contact randy.godwin@macnica.com",
+        "NMOS Control and Modeling",
         "Prototype Controllable-Configurable Device",
         "Version 1.0",
         registrationClient);
@@ -54,7 +54,7 @@ try
         config.base_label,
         config.address,
         config.port,
-        "NMOS Community: Contact randy.godwin@macnica.com",
+        "NMOS Control and Modeling",
         "Prototype Controllable-Configurable Device",
         "Version 1.0",
         "Ely Workshop Development",
