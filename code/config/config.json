@@ -1,9 +1,9 @@
 {
-    "address": "127.0.0.1",
+    "address": "10.0.59.3",
     "port": 8080,
-    "base_label": "NC-01",
-    "registry_address": "127.0.0.1",
-    "registry_port": 80,
+    "base_label": "RBG-Yerevan",
+    "registry_address": "10.0.50.77",
+    "registry_port": 8010,
     "notify_without_subscriptions": false,
-    "work_without_registry": true 
+    "work_without_registry": false 
 }

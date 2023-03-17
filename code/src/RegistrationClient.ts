@@ -58,6 +58,7 @@ export class RegistrationClient
                         'Content-Type': 'application/json'
                     }
                 });
+                
         }
         catch (error) 
         {

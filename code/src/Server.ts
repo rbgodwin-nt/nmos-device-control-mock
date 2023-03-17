@@ -43,6 +43,9 @@ function updateConfig(config: Object) {
     myNode.description = config['description'];  
     myDevice.description = config['description'];  
  
+    myNode.version += 1;
+    myDevice.version +=1;
+
     registrationClient.RegisterOrUpdateResource<NmosDevice>('device', myDevice);
     registrationClient.RegisterOrUpdateResource<NmosNode>('node', myNode);
 }
