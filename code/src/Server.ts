@@ -40,8 +40,8 @@ function updateConfig(config: Object) {
     myDevice.tags = config['device_tags'];
     myNode.tags = config['node_tags'];
     myNode.label = config['label'];
-    myNode.description = config['description'];
-    
+    myNode.description = config['description'];  
+    myDevice.description = config['description'];  
 }
 
 
