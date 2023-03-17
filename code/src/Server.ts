@@ -29,6 +29,7 @@ export interface WebSocketConnection extends WebSocket {
 let myDevice: NmosDevice;
 let myNode: NmosNode;
 let registrationClient: RegistrationClient;
+let currentConfig: Object;
 
 function DelayTask(timeMs: number | undefined) {
     return new Promise(resolve => setTimeout(resolve, timeMs));
@@ -39,15 +40,19 @@ function updateConfig(config: Object) {
     console.log(Object.keys(config));
     myDevice.tags = config['device_tags'];
     myNode.tags = config['node_tags'];
-    myNode.label = config['label'];
-    myNode.description = config['description'];  
-    myDevice.description = config['description'];  
+    myNode.label = config['node_label'];
+    myDevice.label = config['device_label'];
+    myNode.description = config['node_description'];  
+    myDevice.description = config['device_description'];  
  
-    myNode.version += 1;
-    myDevice.version +=1;
+    myNode.BumpVersion();
+    myDevice.BumpVersion();
 
     registrationClient.RegisterOrUpdateResource<NmosDevice>('device', myDevice);
     registrationClient.RegisterOrUpdateResource<NmosNode>('node', myNode);
+    
+    currentConfig = config;
+
 }
 
 try {
@@ -556,6 +561,15 @@ try {
             res.sendStatus(404);
     })
 
+    app.get('/x-nmos/config/:version/nmos-config', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+
+        console.log(`NMOS Config API GET ${req.url}`);
+        
+        res.send(JSON.stringify(currentConfig, jsonIgnoreReplacer));
+
+    });
+
     app.get('/x-nmos/config/:version/root*', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
 
@@ -624,6 +638,15 @@ try {
         }
         else
             res.sendStatus(404);
+    });
+
+
+    app.put('/x-nmos/config/:version/nmos-config', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+
+        console.log(`NMOS Config API PUT ${req.url}`)
+        updateConfig(req.body);
+        res.sendStatus(200);
     });
 
     app.put('/x-nmos/config/:version/root*', function (req, res) {
