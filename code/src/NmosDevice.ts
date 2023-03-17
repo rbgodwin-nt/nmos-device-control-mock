@@ -72,13 +72,6 @@ export class NmosDevice extends NmosResource
        }
 
 
-       public ManufacturerTag(manufacturer: string)
-       {
-
-        this.tags
-
-
-       }
     public AddReceiver(receiver: NmosReceiverCore)
     {
         this.receiverObjects.push(receiver);

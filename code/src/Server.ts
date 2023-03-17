@@ -28,7 +28,7 @@ export interface WebSocketConnection extends WebSocket {
 
 let myDevice: NmosDevice;
 let myNode: NmosNode;
-
+let registrationClient: RegistrationClient;
 
 function DelayTask(timeMs: number | undefined) {
     return new Promise(resolve => setTimeout(resolve, timeMs));
@@ -42,14 +42,16 @@ function updateConfig(config: Object) {
     myNode.label = config['label'];
     myNode.description = config['description'];  
     myDevice.description = config['description'];  
+ 
+    registrationClient.RegisterOrUpdateResource<NmosDevice>('device', myDevice);
+    registrationClient.RegisterOrUpdateResource<NmosNode>('node', myNode);
 }
-
 
 try {
     console.log('App started');
     const config = new Configuration();
 
-    const registrationClient = new RegistrationClient(config.registry_address, config.registry_port, config.work_without_registry);
+    registrationClient = new RegistrationClient(config.registry_address, config.registry_port, config.work_without_registry);
 
     myNode = new NmosNode(
         config.node_id,
