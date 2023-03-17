@@ -69,8 +69,16 @@ export class NmosDevice extends NmosResource
         ];
 
         this.type = 'urn:x-nmos:device:generic';
-    }
+       }
 
+
+       public ManufacturerTag(manufacturer: string)
+       {
+
+        this.tags
+
+
+       }
     public AddReceiver(receiver: NmosReceiverCore)
     {
         this.receiverObjects.push(receiver);

@@ -8,7 +8,7 @@
     "copy-deps": "shx mkdir -p ./dist/node_modules && shx cp -r node_modules ./dist",
     "copy-config": "shx mkdir -p ./dist/server && shx cp -u config/config.json ./dist/server",
     "build-and-start": "npm run build && npm run copy-config && node dist/server/Server.js",
-    "start": "node dist/server/Server.js",
+    "start": "nodemon dist/server/Server.js",
     "preserve": "npm run build",
     "s": "npm run serve",
     "serve": "concurrently \"npm run build.w\" \"npm run copy-config\" \"npm run watch\"",
