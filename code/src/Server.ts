@@ -615,14 +615,11 @@ try {
 
     app.patch('/x-nmos/config/:version/root*', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        let apiCommand = req.body.nmos_control as ConfigApiCommand;
+        let apiCommand = req.body as ConfigApiCommand;
         console.log(`Config API PATCH ${req.url}`);
 
-        console.log(`Config API PATCH Body NMOS Control ${JSON.stringify(req.body.nmos_control)}`);
-        console.log(`Config API PATCH Body NMOS Config ${JSON.stringify(req.body.nmos_config)}`);
+        console.log(`Config API PATCH Body  ${JSON.stringify(req.body)}`);
 
-        // Handle the config items first
-        updateConfig(req.body.nmos_config);
 
         // Now handle control items
 
